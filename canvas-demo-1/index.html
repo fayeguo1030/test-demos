@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>画板-画点</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <!-- 不用div因为div的太耗性能，特别慢还卡 -->
+    <canvas id="canvas" width="100" height="100"></canvas>
+    <script>
+        let canvas = document.getElementById("canvas");
+        // 文档可视区的宽高，body默认不会占全屏
+        //canvas.width 是canvas的属性; canvas.style.width 是css属性不支持的
+        canvas.width = document.documentElement.clientWidth
+        canvas.height = document.documentElement.clientHeight
+        let ctx = canvas.getContext("2d");
+        ctx.fillStyle = "black";
+        //不要描边
+        ctx.strokeStyle = 'none';
+
+        let painting = false
+
+        //js检测是否是触屏设备
+        var isTouchDevice = 'ontouchstart' in document.documentElement;
+        console.log(isTouchDevice);
+
+         if(isTouchDevice){
+            canvas.ontouchmove = (e) => {
+                //e包含多个手指的事件 
+                // console.log(e);
+               let x =  e.touches[0].clientX
+               let y =  e.touches[0].clientY
+               console.log(x,y);
+               ctx.beginPath();
+               ctx.arc(x, y, 10, 0, 2 * Math.PI);
+               ctx.stroke();
+               ctx.fill();
+            }  
+
+         }else{
+            // 因为监听的是鼠标事件，所以手机上没有反应
+            canvas.onmousedown = () => {
+                painting = true
+            }
+
+            canvas.onmousemove = (e) => {
+                if (painting === true) {
+                    ctx.beginPath();
+                    // context.arc(x,y,r,sAngle,eAngle,counterclockwise);
+                    //x 圆的中心的x坐标，y 圆的中心的y坐标，r 圆的半径， 
+                    //sAngle 起始角，eAngle 结束角，counterclockwise 可选,False=顺时针，true=逆时针
+                    ctx.arc(e.clientX, e.clientY, 10, 0, 2 * Math.PI);
+                    ctx.stroke();
+                    ctx.fill();
+                } 
+            }
+
+            canvas.onmouseup = () => {
+                painting = false
+            }
+
+         }
+        
+
+       
+        
+    
+        
+
+
+    </script>
+</body>
+
+</html>

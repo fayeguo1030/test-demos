@@ -1,0 +1,12 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+#canvas {
+  display: block;
+  /* canvas 宽高一开始就设置好了，如果在css中强行改的话，现有基础上拉伸 */
+  /* height:100vw;
+  width:100vw; */
+}

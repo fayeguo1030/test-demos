@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>画板-画图</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <!-- 不用div因为div的太耗性能，特别慢还卡 -->
+    <canvas id="canvas" width="100" height="100"></canvas>
+    <script>
+        let canvas = document.getElementById("canvas");
+        canvas.width = document.documentElement.clientWidth;
+        canvas.height = document.documentElement.clientHeight;
+
+        let ctx = canvas.getContext('2d');
+        ctx.fillStyle = 'black';
+        ctx.strokeStyle = 'none';
+        ctx.lineWidth = 10;
+        ctx.lineCap="round";
+
+        let painting = false;
+        let last;
+
+        let issupport = 'ontouchstart' in document.documentElement;
+
+        console.log(issupport);
+        if(issupport){
+            canvas.ontouchstart = (e) =>{
+                let x = e.touches[0].clientX;
+                let y = e.touches[0].clientY
+                last = [x,y];
+               
+            }
+            canvas.ontouchmove = (e) =>{
+                let x = e.touches[0].clientX;
+                let y = e.touches[0].clientY
+                draw(last[0],last[1],x,y);
+                last = [x,y];
+                
+               
+            }
+
+        }else{
+
+            canvas.onmousedown = (e) =>{
+                painting = true;
+                let x = e.clientX;
+                let y = e.clientY;
+                last = [x,y];
+            }
+
+            canvas.onmousemove =  (e) =>{
+                let x = e.clientX;
+                let y = e.clientY;
+
+                if(painting === true){
+                    draw(last[0], last[1],x,y);
+                    last = [x,y]
+                }
+                
+            }
+            canvas.onmouseup = () =>{
+                painting = false; 
+            }
+
+        }
+    
+
+
+
+      
+
+      
+            
+      function draw (x,y,x1,y1){
+        ctx.beginPath();
+        ctx.moveTo(x,y);
+        ctx.lineTo(x1,y1);
+        ctx.stroke();
+        ctx.fill();
+      }
+
+        
+
+    </script>
+</body>
+
+</html>
