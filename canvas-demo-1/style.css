@@ -3,7 +3,7 @@
   padding: 0;
   box-sizing: border-box;
 }
-html,body{overflow-y:hidden;}
+
 #canvas {
   display: block;
   /* canvas 宽高一开始就设置好了，如果在css中强行改的话，现有基础上拉伸 */
